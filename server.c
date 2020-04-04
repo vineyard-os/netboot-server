@@ -21,19 +21,15 @@ int main() {
 
 	printf(FORMAT_BOLD FORMAT_CYAN "vineyard netboot server" FORMAT_RESET "\n");
 
-	vy_netboot_message_t *advert = malloc(offsetof(vy_netboot_message_t, data));
-
-	if(!advert) {
-		printf("allocation error\n");
-		exit(1);
-	}
+	vy_netboot_message_t *advert;
 
 	int s = socket_create();
 
 	while(advert_listening) {
 		remote_t *remote = calloc(1, sizeof(remote_t));
+		advert = malloc(offsetof(vy_netboot_message_t, data));
 
-		if(!remote) {
+		if(!remote || !advert) {
 			printf("allocation error\n");
 			exit(1);
 		}
